@@ -37,8 +37,8 @@ Vector3f Vector3fAdd(const Vector3f* v1, const Vector3f* v2){
 Vector3f Vector3fNeg(const Vector3f* v1){
 	Vector3f v2;
 	v2.xyz[0] = v1->xyz[0] * -1.0f;
-	v2.xyz[1] = v1->xyz[0] * -1.0f;
-	v2.xyz[2] = v1->xyz[0] * -1.0f;
+	v2.xyz[1] = v1->xyz[1] * -1.0f;
+	v2.xyz[2] = v1->xyz[2] * -1.0f;
 	return v2;
 }
 
