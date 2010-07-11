@@ -11,5 +11,8 @@ void ScreenFree(Screen*);
 
 void ScreenPrint(Screen*);
 
+/* private */
+Pixel PixelCreate(int, int, Vector3f);
+
 
 #endif
