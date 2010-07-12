@@ -8,7 +8,7 @@ struct Image {
 	Colour* pixel_rows[MAXIMAGESIZE];
 	Colour pixel_row[MAXIMAGESIZE];
 	/* may need to change to pixel type*/
-}
+};
 
 Image* ImageCreate(int width, int height){
 	Image* self = malloc(sizeof(Image));

@@ -6,7 +6,7 @@
 typedef struct IntersectPoint IntersectPoint;
 
 
-IntersectPoint* IntersectPointCreate(Vector3f* position,int type);
+IntersectPoint* IntersectPointCreate(const Vector3f position, const Vector3f normal,int type);
 /* 
 if type = 0 then no intersection
 if type = 1 then intersection from inside

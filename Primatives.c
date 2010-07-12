@@ -69,7 +69,7 @@ IntersectPoint* Sphere_intersect(Primative* self, const Ray* ray)
 		CP = Vector3fSub(&Ri, &Sc);
 		Norm = Vector3fDivF(&CP, Sr);
 		
-		IntersectPoint* ip = IntersectPointCreate(&Ri, 1);//remember to free
+		IntersectPoint* ip = IntersectPointCreate(Ri, Norm, 1);//remember to free
 		return ip;
 		//the ray has not hit
 		/*might need to watch out for Tca == 0*/
@@ -96,7 +96,7 @@ IntersectPoint* Sphere_intersect(Primative* self, const Ray* ray)
 				CP = Vector3fSub(&Ri, &Sc);
 				Norm = Vector3fDivF(&CP, Sr);
 				
-				IntersectPoint* ip = IntersectPointCreate(&Ri, 2);//remember 
+				IntersectPoint* ip = IntersectPointCreate(Ri, Norm, 2);//remember 
 				return ip;
 			}
 			else {//the ray definitely will not hit
