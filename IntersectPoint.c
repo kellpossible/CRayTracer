@@ -15,9 +15,9 @@ IntersectPoint* IntersectPointCreate(Vector3f* position,int type){
 	ip->position = *position;//some problem with storing position as a pointer
 	ip->type = type;
 	
-	printf("\nCreatingIPpos:\n");
-	Vector3fPrint(IntersectPointGetPos(ip));
-	printf("\n");
+	//printf("\nCreatingIPpos:\n");
+	//Vector3fPrint(IntersectPointGetPos(ip));
+	//printf("\n");
 	
 	return ip;
 }
