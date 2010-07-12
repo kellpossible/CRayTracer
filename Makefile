@@ -1,11 +1,11 @@
 BUILDDIR = build
-OBJS = Vectors.o CustomMath.o Colours.o Primatives.o Materials.o IntersectPoint.o Screen.o View.o
+OBJS = Vectors.o CustomMath.o Colours.o Primatives.o Materials.o IntersectPoint.o Screen.o View.o Camera.o Scene.o
 CC = gcc
 DEBUGFLAGS = -g
 LFLAGS = -lm
 CFLAGS = -c
 
-all: VectorTest ColourTest PrimativesTest ScreenTest RayTraceTest
+all: VectorTest ColourTest PrimativesTest ScreenTest SceneTest
 
 RayTraceTest: RayTraceTest.c $(OBJS)
 	$(CC) $(LFLAGS) RayTraceTest.c $(OBJS) -o RayTraceTest
@@ -26,6 +26,16 @@ ColourTest: ColourTest.c $(OBJS)
 VectorTest: VectorTest.c $(OBJS)
 	$(CC) $(LFLAGS) VectorTest.c $(OBJS) -o VectorTest
 	cp VectorTest $(BUILDDIR)/VectorTest
+
+SceneTest: SceneTest.c $(OBJS)
+	$(CC) $(LFLAGS) SceneTest.c $(OBJS) -o SceneTest
+
+
+Scene.o: Scene.h Scene.c
+	$(CC) Scene.c $(CFLAGS)
+
+Camera.o: Camera.h Camera.c
+	$(CC) Camera.c $(CFLAGS)
 
 Colours.o: Colours.h Colours.c Vectors.h
 	$(CC) Colours.c $(CFLAGS)
@@ -55,4 +65,4 @@ View.o: View.h View.c
 	$(CC) View.c $(CFLAGS)
 
 clean:
-	\rm *.o *.gch *.c~ *.h~ *.sh~ *Makefile~ VectorTest ColourTest PrimativesTest ScreenTest RayTraceTest --force
+	\rm *.o *.gch *.c~ *.h~ *.sh~ *Makefile~ VectorTest ColourTest PrimativesTest ScreenTest RayTraceTest SceneTest --force

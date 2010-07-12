@@ -1,15 +1,21 @@
 #ifndef Scene_h
 #define Scene_h
-struct Scene {
-	Primative* primative;
-	View* camera;
-	Screen* screen;
-	
-};
+#include "Primatives.h"
+#include "Camera.h"
+
+#define MAXOBJS 100000
 
 typedef struct Scene Scene;
 
+Scene* SceneCreate(char* name, Camera*);
 
-//Scene* SceneCreate(Primative* prim1, View* camera1, Screen* screen1);
+void SceneFree(Scene* self);
+
+void SceneAddPrimative(Scene* self, Primative* new_prim);
+Primative* SceneGetPrimative(Scene* self, int index);
+int SceneGetNumPrims(Scene* self);
+
+void ScenePrint(Scene* self);
+
 
 #endif

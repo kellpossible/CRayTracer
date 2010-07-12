@@ -3,16 +3,19 @@
 
 #include "IntersectPoint.h"
 #include "Vectors.h"
+#include "Ray.h"
 
 struct IntersectPoint{
 	Vector3f position;//some real problems here (might need to make ths a pointer instead
+	Vector3f normal;
 	int type; 
 };
 
-IntersectPoint* IntersectPointCreate(Vector3f* position,int type){
+IntersectPoint* IntersectPointCreate(const Vector3f position, const Vector3f normal,int type){
 	IntersectPoint* ip = malloc(sizeof(IntersectPoint));
 	//IntersectPoint ip;
-	ip->position = *position;//some problem with storing position as a pointer
+	ip->position = position;//some problem with storing position as a pointer
+	ip->normal = normal;
 	ip->type = type;
 	
 	//printf("\nCreatingIPpos:\n");
@@ -24,6 +27,7 @@ IntersectPoint* IntersectPointCreate(Vector3f* position,int type){
 IntersectPoint* IntersectPointCreateMiss(void){
 	IntersectPoint* ip = malloc(sizeof(IntersectPoint));
 	ip->position = Vector3fZERO;
+	ip->normal = Vector3fZERO;
 	ip->type = 0;
 	return ip;
 }
