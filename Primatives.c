@@ -89,9 +89,9 @@ IntersectPoint* Sphere_intersect(Primative* self, const Ray* ray)
 				
 				OP = Vector3fMulF(&Rd, t);//ray origin to point of intersection
 				Ri = Vector3fAdd(&OP, &Ro);//intersect point
-				printf("\nRi\n");
-				Vector3fPrint(&Ri);
-				printf("\n");
+				//printf("\nRi\n");
+				//Vector3fPrint(&Ri);
+				//printf("\n");
 				
 				CP = Vector3fSub(&Ri, &Sc);
 				Norm = Vector3fDivF(&CP, Sr);
@@ -121,13 +121,13 @@ PrimativeType* PrimTypeSphere(void){
 
 float PrimSphereGetRadius(Primative* self){
 	struct Sphere_shapedata* shapedata = (struct Sphere_shapedata *)((const void*) self->shapedata);
-	printf("radius: %f\n", shapedata->radius);
+	//printf("radius: %f\n", shapedata->radius);
 	return shapedata->radius;
 }
 
 Vector3f* PrimSphereGetPosition(Primative* self){
 	struct Sphere_shapedata* shapedata = (struct Sphere_shapedata *)((const void*) self->shapedata);
-	Vector3fPrint(shapedata->position);
+	//Vector3fPrint(shapedata->position);
 	return shapedata->position;
 }
 

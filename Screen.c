@@ -7,13 +7,6 @@
 
 #define MAXIMAGESIZE 5000
 
-struct Pixel {
-	int x;
-	int y;
-	Vector3f position;
-	Vector3f colour;
-};
-
 struct Screen {
 	float width;
 	int image_width;
@@ -97,8 +90,8 @@ Screen* ScreenCreate(float width, int image_width, int image_height, View* view)
 	int counter_rows = 0;
 	vpixvertical = vup;//initial vpixvertical
 	
-	printf("\ninitial vpixvert:\n");
-	Vector3fPrint(&vpixvertical);
+	//printf("\ninitial vpixvert:\n");
+	//Vector3fPrint(&vpixvertical);
 	
 	//starting top left with a biased sampling and moving right
 	//with vright increments
@@ -123,9 +116,18 @@ Screen* ScreenCreate(float width, int image_width, int image_height, View* view)
 	}
 	
 	
-	printf("\n");
+	//printf("\n");
 	return self;
 }
+
+Pixel ScreenGetPixel(Screen* self, int x, int y){
+	return self->pixel_array[y][x];
+}
+
+Vector3f ScreenGetPosition(Screen* self){
+	return self->position;
+}
+
 
 void ScreenFree(Screen* self){//needs to cycle through all the pixels and free them
 	free(self);
@@ -164,6 +166,10 @@ Pixel PixelCreate(int x, int y, Vector3f position){
 	Pixel p = {x, y, position, colour};
 	return p;
 } 
+
+Vector3f PixelGetPosition(Pixel* self){
+	return self->position;
+}
 
 
 
