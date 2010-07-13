@@ -3,7 +3,6 @@
 
 #include "Screen.h"
 #include "Vectors.h"
-#include "View.h"
 
 #define MAXIMAGESIZE 5000
 
@@ -12,7 +11,6 @@ struct Screen {
 	int image_width;
 	int image_height;
 	
-	View* view;
 	Vector3f position;
 	
 	float pixel_width;
@@ -25,33 +23,32 @@ struct PixelSample {
 	
 */
 
-Screen* ScreenCreate(float width, int image_width, int image_height, View* view){
-	float pixel_width, height;
-	//todo:
-	//if pixel_width < MAXIMAGESIZE raise error
-	Vector3f cam_pos;
-	Vector3f view_vec;
-	Vector3f vup_dir = {{0.0f, 0.0f, 1.0f}};
-	Vector3f vup, vleft, vleft_norm, vright, vright_inc, vdown_inc, vup_norm; 
-	//vectors from centre of screen to edges
-	Vector3f vpixvertical, vpixhorizontal;// pixel construction vectors
-	
+Screen* ScreenCreate(float width, int image_width, int image_height){
 	Screen* self = malloc(sizeof(Screen));
 	
 	self->width = width;//real width
 	self->image_width = image_width;//width in pixels
 	self->image_height = image_height;//height in pixels
+	return self;
 	
-	self->view = view;
-	cam_pos = ViewGetPosition(view);
-	view_vec = ViewGetViewVector(view);
+}
+
+void ScreenCalibrate(Screen* self, Vector3f cam_pos, Vector3f view_vec){
+	float pixel_width, height;
+	//todo:
+	//if pixel_width < MAXIMAGESIZE raise error
+	Vector3f vup_dir = {{0.0f, 0.0f, 1.0f}};
+	Vector3f vup, vleft, vleft_norm, vright, vright_inc, vdown_inc, vup_norm; 
+	//vectors from centre of screen to edges
+	Vector3f vpixvertical, vpixhorizontal;// pixel construction vectors
+	
 	self->position = Vector3fAdd(&cam_pos, &view_vec);
 	
 	
-	pixel_width = width/((float)image_width);
+	pixel_width = (self->width)/((float)(self->image_width));
 	self->pixel_width = pixel_width;
 	
-	height = pixel_width * image_height;
+	height = pixel_width * (self->image_height);
 	vup = Vector3fMulF(&vup_dir, (height/2.0f));//from screen center
 	vup_norm = Vector3fNormalize(&vup);
 	vdown_inc = Vector3fMulF(&vup_norm, (-1.0f * pixel_width));
@@ -95,14 +92,14 @@ Screen* ScreenCreate(float width, int image_width, int image_height, View* view)
 	
 	//starting top left with a biased sampling and moving right
 	//with vright increments
-	while (counter_rows < image_height){
+	while (counter_rows < (self->image_height)){
 		int counter_pixels = 0;
 		vpixvertical = Vector3fAdd(&vpixvertical, &vdown_inc);//all shifted down one maybe needs offset!
 		// I think it is better performance adding an increment
 		vpixhorizontal = Vector3fSub(&vleft, &vright_inc);//resetting to left hand edge 
 		//(subtracting offset as well)
 		
-		while (counter_pixels < image_width){
+		while (counter_pixels < (self->image_width)){
 			vpixhorizontal = Vector3fAdd(&vpixhorizontal, &vright_inc);
 			Vector3f pixpos = Vector3fAdd(&vpixhorizontal, &vpixvertical);
 			pixpos = Vector3fAdd(&pixpos, &(self->position));//adjust according to screen position
@@ -117,8 +114,8 @@ Screen* ScreenCreate(float width, int image_width, int image_height, View* view)
 	
 	
 	//printf("\n");
-	return self;
 }
+
 
 Pixel ScreenGetPixel(Screen* self, int x, int y){
 	return self->pixel_array[y][x];
@@ -126,6 +123,15 @@ Pixel ScreenGetPixel(Screen* self, int x, int y){
 
 Vector3f ScreenGetPosition(Screen* self){
 	return self->position;
+}
+
+
+int ScreenGetImageWidth(Screen* self){
+	return self->image_width;
+}
+
+int ScreenGetImageHeight(Screen* self){
+	return self->image_height;
 }
 
 
@@ -141,7 +147,6 @@ void ScreenPrint(Screen* self){
 	printf("\nScreen %i Stats:\n", (int)self);
 	printf("Screen Width: %.3f\n", self->width);
 	printf("Image Width: %i, Image Height: %i\n", self->image_width, self->image_height);
-	printf("View: %i\n", (int)self->view);
 	printf("Position: ");
 	Vector3fPrint(&self->position);
 	printf("Pixel Width: %.3f\n", self->pixel_width);

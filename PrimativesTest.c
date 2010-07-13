@@ -16,8 +16,8 @@ int main(){
 	
 	Vector3f pos = {{0.0f, 0.0f, 0.0f}};
 	Vector3f dir = {{0.0f, 1.0f, 0.0f}};
-	Ray r = {pos, dir};
-	IntersectPoint* ip =  PrimativeIntersect(p, &r);
+	Ray* r = RayCreate(pos, dir);
+	IntersectPoint* ip =  PrimativeIntersect(p, r);
 	
 	printf("\nHIT DATA: \n");
 	Vector3fPrint(IntersectPointGetPos(ip));
@@ -29,5 +29,6 @@ int main(){
 	free(mat);
 	free(p);
 	free(m);
+	RayFree(r);
 	return 0;
 }

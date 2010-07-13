@@ -17,7 +17,6 @@ IntersectPoint* IntersectPointCreate(const Vector3f position, const Vector3f nor
 	ip->position = position;//some problem with storing position as a pointer
 	ip->normal = normal;
 	ip->type = type;
-	
 	//printf("\nCreatingIPpos:\n");
 	//Vector3fPrint(IntersectPointGetPos(ip));
 	//printf("\n");
@@ -25,10 +24,7 @@ IntersectPoint* IntersectPointCreate(const Vector3f position, const Vector3f nor
 	return ip;
 }
 IntersectPoint* IntersectPointCreateMiss(void){
-	IntersectPoint* ip = malloc(sizeof(IntersectPoint));
-	ip->position = Vector3fZERO;
-	ip->normal = Vector3fZERO;
-	ip->type = 0;
+	IntersectPoint* ip = IntersectPointCreate(Vector3fZERO, Vector3fZERO, 0);
 	return ip;
 }
 void IntersectPointFree(IntersectPoint* ip){

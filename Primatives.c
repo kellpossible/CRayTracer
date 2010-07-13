@@ -12,7 +12,7 @@
 
 struct PrimativeType {
 	char* name;
-	IntersectPoint* (*intersect)(Primative*, const Ray*);	
+	IntersectPoint* (*intersect)(Primative*, Ray*);	
 };
 
 struct Primative {
@@ -28,7 +28,7 @@ struct Sphere_shapedata{
 };
 
 			
-IntersectPoint* Sphere_intersect(Primative* self, const Ray* ray)
+IntersectPoint* Sphere_intersect(Primative* self, Ray* ray)
 {
 	float Sr, LOC, L2OC, Tca, D2, T2hc, t;
 	Vector3f Ro, Rd, Sc, OC, Ri, Norm, OP, CP;
@@ -36,8 +36,8 @@ IntersectPoint* Sphere_intersect(Primative* self, const Ray* ray)
 	/* OC = ray origin -> circle origin */
 	/* LOC = length(OC) */
 	/* L2OC = LOC**2 */
-	Ro = ray->origin;
-	Rd = ray->direction;
+	Ro = RayGetOrigin(ray);
+	Rd = RayGetDirection(ray);
 	
 	Sr = PrimSphereGetRadius(self);
 	Sc = *PrimSphereGetPosition(self);
