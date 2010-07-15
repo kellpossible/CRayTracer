@@ -7,12 +7,16 @@
 #include "Scene.h"
 #include "IntersectPoint.h"
 #include "RayTrace.h"
+#include "Sample.h"
+#include "Image.h"
+#include "Materials.h"
+#include "Lights.h"
 /* expected output: */
 /* */
 
 int main(int argc, char* argv[]){
 	int i;
-	int im_size = 30;
+	int im_size = 2000;
 	Vector3f camera1_pos = {{0.0f, 0.0f, 0.0f}};
 	Vector3f camera1_tar = {{2.0f, 0.0f, 0.0f}};
 	float camera1_focal = 1.0f;
@@ -20,38 +24,29 @@ int main(int argc, char* argv[]){
 	Camera* camera1 = CameraCreate(screen1, &camera1_pos, &camera1_tar, camera1_focal);
 	//ViewPrint(camera1);
 	
-	Vector3f sphere_pos = {{6.0f, 0.0f, 0.0f}};
-	Material mat = {"red"};
-	Primative* prim1 = PrimativeCreateSphere(&sphere_pos, 2.0f, &mat);
+	Vector3f colour = {{0.8f, 0.1f, 0.1f}};
+	Material* mat = MaterialCreate("red", colour);
+	
+	Vector3f sphere_pos = {{3.0f, 0.0f, 0.0f}};
+	Primative* prim1 = PrimativeCreateSphere(&sphere_pos, 1.0f, mat);
 	
 	Scene* scene1 = SceneCreate("Scene1", camera1);
 	SceneAddPrimative(scene1, prim1);
-	/*todo:
+	
+	Vector3f light_pos = {{0.0f, .0f, 3.0f}};
+	Light* light1 = LightCreate("Light1", light_pos, 0.1f); 
+	SceneAddLight(scene1, light1);
+	/*TODO:
 	need to add an error check for when primative doesn't exist when using
 	SceneGetPrimative.*/
 	
+	Image* im = SampleSimple(scene1);//main raytracing
+	ImageWriteFilePPM3(im,"RayTraceTest.ppm");
+	printf("Image Written to RayTraceTest.ppm\n");
 	
-	int y = 0;
-	int x;
-	Vector3f ray_vec, ray_norm, ray_pos;
-	Pixel curr_pix;
-	
-	while (y < ScreenGetImageHeight(screen1)){
-		x = 0;
-		while (x < ScreenGetImageWidth(screen1)){
-			curr_pix = ScreenGetPixel(screen1, x, y);
-			ray_pos = PixelGetPosition(&curr_pix);
-			ray_vec = Vector3fSub(&ray_pos, &camera1_pos);
-			ray_norm = Vector3fNormalize(&ray_vec);
-			Ray* r = RayCreate(ray_pos, ray_norm);
-			printf("%i ",RayTrace(r, scene1)); 
-			RayFree(r);
-			x++;
-		}
-		printf("\n");
-		y++;
-	}
-	
+	LightFree(light1);
+	MaterialFree(mat);
+	ImageFree(im);	
 	ScreenFree(screen1);
 	CameraFree(camera1);
 	PrimativeFree(prim1);

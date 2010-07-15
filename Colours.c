@@ -59,22 +59,40 @@ Vector3f ColourRGB2Vector3f(ColourRGB* c1){
 }
 ColourRGB Vector3f2ColourRGB(Vector3f* v1){
 	ColourRGB c1;
-	int counter = 0;
-	
-	while (counter < 3){
-		if (v1->xyz[counter] <= 1 ){
-			if (v1->xyz[counter] >= 0){
-				c1.rgb[counter] = (int)(v1->xyz[counter]) * 255;
-			}
-			else {
-				c1.rgb[counter] = 0;
-			}	
-		}
-		else {
-			c1.rgb[counter] = 255;
-		}
-				
-		counter += 1;
+	int r, g, b;
+	r = (int)((v1->xyz[0])*255.0f);
+	if (r > 255)
+	{
+		r = 255;
 	}
+	else if (r < 0)
+	{
+		r = 0;
+	}
+	c1.rgb[0] = r;
+	
+	g = (int)((v1->xyz[1])*255.0f);
+	if (g > 255)
+	{
+		g = 255;
+	}
+	else if (g < 0)
+	{
+		g = 0;
+	}
+	c1.rgb[1] = g;
+	
+	b = (int)((v1->xyz[2])*255.0f);
+	if (b > 255)
+	{
+		b = 255;
+	}
+	else if (b < 0)
+	{
+		b = 0;
+	}
+	c1.rgb[2] = b;
+	
+	//ColourRGBPrint(&c1);
 	return c1;
 }

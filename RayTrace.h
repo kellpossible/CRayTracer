@@ -2,6 +2,8 @@
 #define RayTrace_h
 #include "Ray.h"
 #include "Scene.h"
-int RayTrace(Ray* r, Scene* s);//return colour value
+#include "Vectors.h"
+
+Vector3f RayTrace(Ray* r, Scene* s);//return colour value
 
 #endif

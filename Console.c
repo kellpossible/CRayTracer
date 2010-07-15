@@ -15,7 +15,6 @@ int mypow(int n1, int n2){
 	
 }
 
-
 int stringtoint(char s[]){
 	int len = strlen(s);
 	int digit, num, sign;

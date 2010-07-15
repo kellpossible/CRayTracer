@@ -4,6 +4,7 @@ OBJS += Colours.o Primatives.o
 OBJS +=Materials.o IntersectPoint.o 
 OBJS +=Screen.o Camera.o Scene.o 
 OBJS +=Image.o RayTrace.o Ray.o
+OBJS += Sample.o ToneMap.o Lights.o
 CC = gcc -g
 DEBUGFLAGS = -g
 LFLAGS = -lm
@@ -42,6 +43,12 @@ ImageTest: ImageTest.c $(OBJS)
 RayTrace.o: RayTrace.c RayTrace.h
 	$(CC) RayTrace.c $(CFLAGS)
 
+ToneMap.o: ToneMap.h ToneMap.c
+	$(CC) ToneMap.c $(CFLAGS)
+
+Sample.o: Sample.h Sample.c
+	$(CC) Sample.c $(CFLAGS)
+
 Image.o: Image.h Image.c
 	$(CC) Image.c $(CFLAGS)
 
@@ -68,6 +75,9 @@ Materials.o: Materials.h Materials.c
 
 Ray.o: Ray.h Ray.c
 	$(CC) Ray.c $(CFLAGS)
+	
+Lights.o: Lights.h Lights.c
+	$(CC) Lights.c $(CFLAGS)
 	
 IntersectPoint.o: IntersectPoint.h IntersectPoint.c
 	$(CC) IntersectPoint.c $(CFLAGS)

@@ -36,6 +36,10 @@ Vector3f* IntersectPointGetPos(IntersectPoint* ip){
 	return retv;
 }
 
+Vector3f IntersectPointGetNormal(IntersectPoint* self){
+	return self->normal;
+}
+
 int IntersectPointGetType(IntersectPoint* ip){
 	return ip->type;
 }

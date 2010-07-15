@@ -17,5 +17,6 @@ IntersectPoint* IntersectPointCreateMiss(void);
 void IntersectPointFree(IntersectPoint*);
 
 Vector3f* IntersectPointGetPos(IntersectPoint*);
+Vector3f IntersectPointGetNormal(IntersectPoint*);
 int IntersectPointGetType(IntersectPoint*);
 #endif
