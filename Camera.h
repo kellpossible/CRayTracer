@@ -2,6 +2,7 @@
 #define Camera_h
 #include "Vectors.h"
 #include "Screen.h"
+
 typedef struct Camera Camera;
 
 Camera* CameraCreate(Screen* screen, Vector3f* position, Vector3f* target_position, float focal_length);

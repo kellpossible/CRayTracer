@@ -4,6 +4,7 @@
 #include "IntersectPoint.h"
 #include "Ray.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 int main(){
 	Vector3f v1 = {{0.0f, 6.0f, 0.0f}};
@@ -11,7 +12,7 @@ int main(){
 	Primative* p = PrimativeCreateSphere(&v1, 1.0f, mat);
 	PrimativePrint(p);
 	Material* m = PrimativeGetMaterial(p);
-	printf("%s\n", m->name);
+	printf("%s\n", MaterialGetName(m));
 	
 	
 	Vector3f pos = {{0.0f, 0.0f, 0.0f}};
