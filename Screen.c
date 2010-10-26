@@ -33,12 +33,13 @@ Screen* ScreenCreate(float width, int image_width, int image_height){
 	
 }
 
-void ScreenCalibrate(Screen* self, Vector3f cam_pos, Vector3f view_vec){
+void ScreenCalibrate(Screen* self, Vector3f cam_pos, Vector3f view_vec, float view_angle){
 	float pixel_width, height;
 	//todo:
 	//if pixel_width < MAXIMAGESIZE raise error
-	Vector3f vup_dir = {{0.0f, 0.0f, 1.0f}};
-	Vector3f vup, vleft, vleft_norm, vright, vright_inc, vdown_inc, vup_norm; 
+	Vector3f up_dir = {{0.0f, 0.0f, 1.0f}};
+	Vector3f vup_dir
+	Vector3f vup, vleft, vleft_norm, vright, vright_inc, vdown_inc, vright_cross, vup_cross;
 	//vectors from centre of screen to edges
 	Vector3f vpixvertical, vpixhorizontal;// pixel construction vectors
 	
@@ -49,9 +50,13 @@ void ScreenCalibrate(Screen* self, Vector3f cam_pos, Vector3f view_vec){
 	self->pixel_width = pixel_width;
 	
 	height = pixel_width * (self->image_height);
-	vup = Vector3fMulF(&vup_dir, (height/2.0f));//from screen center
-	vup_norm = Vector3fNormalize(&vup);
-	vdown_inc = Vector3fMulF(&vup_norm, (-1.0f * pixel_width));
+	//vup = Vector3fMulF(&vup_dir, (height/2.0f));//from screen center
+	vright_cross = Vector3fCross(view_vec, up_dir);
+	vup_cross = Vector3fCross(vright_cross, view_vec);
+	vup_dir = Vector3fNormalize(&vup_cross);
+	vup = Vector3fMulF(&vup_dir, (height/2.0f));
+
+	vdown_inc = Vector3fMulF(&vup_dir, (-1.0f * pixel_width));
 	
 	vleft = Vector3fCross(&vup, &view_vec);//final vleft
 	vleft_norm = Vector3fNormalize(&vleft);

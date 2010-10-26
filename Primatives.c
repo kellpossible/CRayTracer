@@ -13,6 +13,7 @@
 struct PrimativeType {
 	char* name;
 	IntersectPoint* (*intersect)(Primative*, Ray*);	
+	void (*typefree)(Primative*);//
 };
 
 struct Primative {
@@ -69,7 +70,7 @@ IntersectPoint* Sphere_intersect(Primative* self, Ray* ray)
 		CP = Vector3fSub(&Ri, &Sc);
 		Norm = Vector3fDivF(&CP, Sr);
 		
-		IntersectPoint* ip = IntersectPointCreate(Ri, Norm, 1);//remember to free
+		IntersectPoint* ip = IntersectPointCreate(Ri, Norm, t, 1);//remember to free
 		return ip;
 		//the ray has not hit
 		/*might need to watch out for Tca == 0*/
@@ -96,7 +97,7 @@ IntersectPoint* Sphere_intersect(Primative* self, Ray* ray)
 				CP = Vector3fSub(&Ri, &Sc);
 				Norm = Vector3fDivF(&CP, Sr);
 				
-				IntersectPoint* ip = IntersectPointCreate(Ri, Norm, 2);//remember 
+				IntersectPoint* ip = IntersectPointCreate(Ri, Norm, t, 2);//remember 
 				return ip;
 			}
 			else {//the ray definitely will not hit
@@ -112,10 +113,15 @@ IntersectPoint* Sphere_intersect(Primative* self, Ray* ray)
 	}
 }
 
+void Sphere_free(Primative* self){
+	free((struct Sphere_shapedata*)self->shapedata);
+}
+
 PrimativeType* PrimTypeSphere(void){
 	PrimativeType* pt = malloc(sizeof(PrimativeType));
 	pt->name = "Sphere";
 	pt->intersect = Sphere_intersect;
+	pt->typefree = Sphere_free;
 	return pt;
 }
 
@@ -153,8 +159,96 @@ Primative* PrimativeCreateSphere(Vector3f* position,
 
 /* End Sphere Primative */
 
+
+/* Triangle Primative
+struct Triangle_shapedata{
+	
+}
+
+End Triangle Primative */
+
+/* Plane Primative */
+struct Plane_shapedata{
+	Vector3f normal;
+	float distance;//distance from origin
+};
+
+IntersectPoint* Plane_intersect(Primative* self, Ray* r){
+	Vector3f Ro = RayGetOrigin(r);
+	Vector3f Rd = RayGetDirection(r);
+	Vector3f Pn = PrimPlaneGetNormal(self);
+	float D = -1.0f * PrimPlaneGetDistance(self);
+	
+	float Vd = Vector3fDot(&Pn, &Rd);
+	if (Vd < -0.00001f && Vd > 0.00001f)
+	{
+		return IntersectPointCreateMiss();
+	}
+	if (Vd > 0.0f)//backface culling not sure if this is good idea...
+	{
+		return IntersectPointCreateMiss();
+	}
+	
+	float Vo = -1.0f * (Vector3fDot(&Pn, &Ro) + D);
+	float t = Vo/Vd;//might need FDIV
+	if (t < 0)
+	{
+		return IntersectPointCreateMiss();
+	}
+	/*
+	R(t) = Ro + Rd*t
+	*/
+	
+	Rd = Vector3fMulF(&Rd, t);//multiply Rd by t
+	Vector3f ri = Vector3fAdd(&Ro, &Rd);
+	return IntersectPointCreate(ri, Pn, t, 2);
+}
+
+void Plane_free(Primative* self){
+	free((struct Plane_shapedata*)self->shapedata);
+}
+
+
+PrimativeType* PrimTypePlane(void){
+	PrimativeType* pt = malloc(sizeof(PrimativeType));
+	pt->name = "Plane";
+	pt->intersect = Plane_intersect;
+	pt->typefree = Plane_free;
+	return pt;
+}
+
+Primative* PrimativeCreatePlane(Vector3f* normal,
+				float distance,
+				Material* material){
+	Primative* self = malloc(sizeof(Primative));
+	struct Plane_shapedata* shapedata = malloc(sizeof(struct Plane_shapedata));
+	if (shapedata != NULL){
+		shapedata->normal = *normal;
+		shapedata->distance = distance;
+		if (self != NULL){
+			self->type = PrimTypePlane();
+			self->shapedata = shapedata;
+			self->material = material;
+		}
+	}
+	return self;
+}
+
+Vector3f PrimPlaneGetNormal(Primative* self){
+	struct Plane_shapedata* shapedata = (struct Plane_shapedata *)((const void*) self->shapedata);
+	return shapedata->normal;
+}
+
+float PrimPlaneGetDistance(Primative* self){
+	struct Plane_shapedata* shapedata = (struct Plane_shapedata *)((const void*) self->shapedata);
+	return shapedata->distance;
+}
+
+/* End Plane Primative */
+
 void PrimativeFree(Primative* self){
-	free((struct Sphere_shapedata*)self->shapedata);
+	self->type->typefree(self);
+	free(self->type);
 	free(self);
 }
 

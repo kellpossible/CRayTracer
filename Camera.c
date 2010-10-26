@@ -10,6 +10,7 @@ struct Camera{
 	Vector3f* position;
 	Vector3f* target_position;
 	float focal_length;
+	float view_angle; //angle of view from True relative to view_vector
 	Vector3f* view_vector;
 	Vector3f* direction;
 };
@@ -17,7 +18,8 @@ struct Camera{
 Camera* CameraCreate(Screen* screen,
 		 Vector3f* position,
 		 Vector3f* target_position,
-		 float focal_length)
+		 float focal_length,
+		 float view_angle)
 {
 	Vector3f vv1, vv2;
 	Camera* self = malloc(sizeof(Camera));
@@ -28,6 +30,7 @@ Camera* CameraCreate(Screen* screen,
 	self->position = position;
 	self->target_position = target_position;
 	self->focal_length = focal_length;
+	self->view_angle = view_angle;
 	
 	vv1 = Vector3fSub(self->target_position, self->position);
 	
@@ -37,7 +40,7 @@ Camera* CameraCreate(Screen* screen,
 	*view_vector = Vector3fMulF(direction, self->focal_length);
 	self->view_vector = view_vector;
 	
-	ScreenCalibrate(screen, *position, *view_vector);
+	ScreenCalibrate(screen, *position, *view_vector, view_angle);
 	
 	return self;
 }
@@ -64,6 +67,10 @@ float CameraGetFocalLength(Camera* self){
 	return self->focal_length;
 }
 
+float CameraGetViewAngle(Camera* self){
+	return self->view_angle;
+}
+
 Vector3f CameraGetPosition(Camera* self){
 	return *(self->position);
 }
@@ -81,6 +88,7 @@ void CameraPrint(Camera* self){
 	printf("Direction: ");
 	Vector3fPrint(self->direction);
 	printf("Focal Length: %.3f\n", self->focal_length);
+	printf("View Angle: %.3f\n", self->view_angle);
 	printf("View Vector: ");
 	Vector3fPrint(self->view_vector);
 }

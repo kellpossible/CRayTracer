@@ -21,6 +21,7 @@ Vector3f ColourRGB2Vector3f(ColourRGB*);
 ColourRGB Vector3f2ColourRGB(Vector3f*);
 
 ColourRGB ColourRGBCreateDefault(void);
+ColourRGB ColourRGBCreate(int r, int g, int b);
 Vector3f ColourXYZCreateDefault(void);
 
 #endif

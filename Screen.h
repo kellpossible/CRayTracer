@@ -14,7 +14,7 @@ typedef struct Screen Screen;
 
 
 Screen* ScreenCreate(float width, int image_width, int image_height);
-void ScreenCalibrate(Screen* self, Vector3f cam_pos, Vector3f view_vec);
+void ScreenCalibrate(Screen* self, Vector3f cam_pos, Vector3f view_vec, float view_angle);
 void ScreenFree(Screen*);
 
 Pixel ScreenGetPixel(Screen* self, int x, int y);

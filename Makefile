@@ -10,7 +10,11 @@ DEBUGFLAGS = -g
 LFLAGS = -lm
 CFLAGS = -c
 
-all: VectorTest ColourTest PrimativesTest ScreenTest SceneTest ImageTest RayTraceTest
+all: VectorTest ColourTest PrimativesTest ScreenTest SceneTest ImageTest RayTraceTest PlaneIntersect
+
+PlaneIntersect: PlaneIntersect.c $(OBJS)
+	$(CC) $(LFLAGS) PlaneIntersect.c $(OBJS) -o PlaneIntersect
+	cp PlaneIntersect $(BUILDDIR)/PlaneIntersect
 
 RayTraceTest: RayTraceTest.c $(OBJS)
 	$(CC) $(LFLAGS) RayTraceTest.c $(OBJS) -o RayTraceTest
@@ -86,4 +90,14 @@ Screen.o: Screen.h Screen.c
 	$(CC) Screen.c $(CFLAGS)
 
 clean:
-	\rm *.o *.gch *.c~ *.h~ *.sh~ *Makefile~ VectorTest ColourTest PrimativesTest ScreenTest RayTraceTest SceneTest ImageTest --force
+	\rm *.o *.gch *.c~ *.h~ *.sh~ *Makefile~ VectorTest ColourTest PrimativesTest ScreenTest RayTraceTest PlaneIntersect SceneTest ImageTest --force
+
+test:
+	./ColourTest
+	./RayTraceTest
+	./ScreenTest
+	#./PrimativesTest
+	#./VectorTest
+	./SceneTest
+	./ImageTest
+	./SceneTest

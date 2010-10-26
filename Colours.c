@@ -10,6 +10,15 @@ ColourRGB ColourRGBCreateDefault(void){
 	return c1;
 }
 
+ColourRGB ColourRGBCreate(int r, int g, int b){
+	ColourRGB c1;
+	c1.rgb[0] = 0;
+	c1.rgb[1] = 0;
+	c1.rgb[2] = 0;
+	return c1;
+}
+
+
 Vector3f ColourXYZCreateDefault(void){
 	Vector3f c1;
 	c1.xyz[0] = 1.0f;
