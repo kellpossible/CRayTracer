@@ -6,6 +6,7 @@ OBJS +=Screen.o Camera.o Scene.o
 OBJS +=Image.o RayTrace.o Ray.o
 OBJS += Sample.o ToneMap.o Lights.o
 OBJS += ./Dependencies/RandomMWC/RandomMwc.o
+OBJS += Random.o
 CC = gcc -g
 DEBUGFLAGS = -g
 LFLAGS = -lm
@@ -58,6 +59,8 @@ Sample.o: Sample.h Sample.c RandomMwc
 RandomMwc:
 	cd ./Dependencies/RandomMWC/; make
 
+Random.o: Random.h Random.c
+	$(CC) -I ./Dependencies/RandomMWC Random.c $(CFLAGS)
 
 Image.o: Image.h Image.c
 	$(CC) Image.c $(CFLAGS)

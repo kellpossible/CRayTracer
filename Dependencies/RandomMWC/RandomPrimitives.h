@@ -8,8 +8,8 @@
 ------------------------------------------------------------------------------*/
 
 
-#ifndef Primitives_h
-#define Primitives_h
+#ifndef RandomPrimitives_h
+#define RandomPrimitives_h
 
 
 #include <float.h>
