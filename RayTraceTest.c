@@ -18,7 +18,7 @@
 
 int main(int argc, char* argv[]){
 	int i;
-	int im_size = 10;
+	int im_size = 500;
 	/*TODO: fix camera maths/screen building maths
 	to include rotations, and stop screwing up when I change
 	the position or focal length*/

@@ -3,6 +3,7 @@
 
 #include "Screen.h"
 #include "Vectors.h"
+#include "Colours.h"
 
 #define MAXIMAGESIZE 5000
 
@@ -155,6 +156,9 @@ Vector3f ScreenGetPosition(Screen* self){
 	return self->position;
 }
 
+float ScreenGetPixelWidth(Screen* self){
+    return self->pixel_width;
+}
 
 int ScreenGetImageWidth(Screen* self){
 	return self->image_width;
@@ -163,6 +167,32 @@ int ScreenGetImageWidth(Screen* self){
 int ScreenGetImageHeight(Screen* self){
 	return self->image_height;
 }
+
+Vector3f ScreenGetUpVec(Screen* self){
+    return self->up;
+}
+
+Vector3f ScreenGetUpDir(Screen* self){
+    return self->up_dir;
+}
+
+Vector3f ScreenGetLeftVec(Screen* self){
+    return self->left;
+}
+
+Vector3f ScreenGetLeftDir(Screen* self){
+    return self->left_dir;
+}
+
+Vector3f ScreenGetRightInc(Screen* self){
+    return Vector3fMulF(&(self->left_dir), (-1 * self->pixel_width));
+}
+
+Vector3f ScreenGetDownInc(Screen* self){
+    return Vector3fMulF(&(self->up_dir), (-1 * self->pixel_width));
+}
+
+
 
 
 void ScreenFree(Screen* self){//needs to cycle through all the pixels and free them

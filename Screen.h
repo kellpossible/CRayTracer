@@ -24,6 +24,14 @@ Vector3f PixelGetPosition(Pixel* self);
 int ScreenGetImageWidth(Screen* self);
 int ScreenGetImageHeight(Screen* self);
 
+float ScreenGetPixelWidth(Screen* self);
+Vector3f ScreenGetUpVec(Screen* self);
+Vector3f ScreenGetUpDir(Screen* self);
+Vector3f ScreenGetLeftVec(Screen* self);
+Vector3f ScreenGetLeftDir(Screen* self);
+Vector3f ScreenGetRightInc(Screen* self);
+Vector3f ScreenGetDownInc(Screen* self);
+
 void ScreenPrint(Screen*);
 
 /* private */

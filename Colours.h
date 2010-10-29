@@ -13,6 +13,10 @@ typedef struct Vector3f Colour3f;
 
 ColourRGB ColourRGBAdd(const ColourRGB*, const ColourRGB*);
 ColourRGB ColourRGBSub(const ColourRGB*, const ColourRGB*);
+ColourRGB ColourRGBAverage4(ColourRGB*,ColourRGB*,ColourRGB*,ColourRGB*);
+float ColourRGBDiff4(ColourRGB*,ColourRGB*,ColourRGB*,ColourRGB*); //TODO: Broken needs fixing
+//currently printing out output as relative to the average of the pixels, which should
+//not be the case.
 
 void ColourRGBPrint(const ColourRGB*);
 void Colour3fPrint(const Vector3f*);

@@ -44,6 +44,69 @@ ColourRGB ColourRGBSub(const ColourRGB* c1, const ColourRGB* c2){
 	return c3;
 }
 
+ColourRGB ColourRGBAverage4(ColourRGB* c1,
+                            ColourRGB* c2,
+                            ColourRGB* c3,
+                            ColourRGB* c4){
+    ColourRGB* c_array[4] = {c1, c2, c3, c4};
+    int r_sum = 0, b_sum = 0, g_sum = 0;
+    int i=0;
+    while (i < 3){
+        r_sum += (*(c_array[i])).rgb[0];//false alarm in netbeans
+        g_sum += (*(c_array[i])).rgb[1];
+        b_sum += (*(c_array[i])).rgb[2];
+        i++;
+    }
+    ColourRGB ret_col;
+    ret_col.rgb[0] = ((float)r_sum)/3.0f;
+    ret_col.rgb[1] = ((float)g_sum)/3.0f;
+    ret_col.rgb[2] = ((float)b_sum)/3.0f;
+    /*printf("C1: ");
+    ColourRGBPrint(c1);
+    printf("RETCOL: ");
+    ColourRGBPrint(&ret_col);*/
+    return ret_col;
+}
+
+
+float ColourRGBDiff4(//should convert to using an array for any number of colours
+        ColourRGB* c1,
+        ColourRGB* c2,
+        ColourRGB* c3,
+        ColourRGB* c4){
+    float b_sum = 0.0f, b_diff_sum = 0.0f;
+    float b, b_diff, b_av;
+    float b_array[4];
+    int i;
+    ColourRGB* c_array[4] = {c1, c2, c3, c4};
+    
+    i=0;
+    while (i < 3){
+        //printf("colour %d", (*(c_array[i])).rgb[0]);
+        b = ((float)((*(c_array[i])).rgb[0]//false alarm in netbeans
+                   + (*(c_array[i])).rgb[1]
+                   + (*(c_array[i])).rgb[2]))/(3.0f * 255.0f) ;
+        b_sum += b;
+        b_array[i] = b; //18382
+        i++;
+    }
+
+    b_av = (b_sum)/(4.0f);
+
+    i = 0;
+    while (i < 3){
+        b_diff = b_av - b_array[i];
+        if (b_diff < 0.0f){
+            b_diff *= -1;
+        }
+        b_diff_sum += b_diff;
+
+        i++;
+    }
+    return b_diff_sum/4.0f; //b_diff_av
+
+}
+
 
 void ColourRGBPrint(const ColourRGB* c1){
 	printf("r: %d, g: %d, b: %d\n", 
