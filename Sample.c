@@ -7,8 +7,16 @@
 #include "Image.h"
 #include "ToneMap.h"
 #include "Colours.h"
+//external dependency:
+#include <stdlib.h>
+#include <sys/time.h>
+#include "RandomMwc.h"
 
 Image* SampleSimple(Scene* scene){
+        struct timeval tv;
+        gettimeofday(&tv, NULL);
+	RandomMwc rMwc_buffer = RandomMwcCreate((dword)(tv.tv_sec * 2 + tv.tv_usec));
+	//RandomMwc rMwc_buffer = RandomMwcCreate((dword)(2));
 	Camera* camera = SceneGetCamera(scene);
 	Screen* screen = CameraGetScreen(camera);
 	Image* im = ImageCreate(ScreenGetImageWidth(screen),
@@ -44,4 +52,11 @@ Image* SampleSimple(Scene* scene){
 	}
 	return im;
 	
+}
+
+Image* SampleAA(Scene* scene){
+    struct timeval tv;
+    gettimeofday(&tv, NULL);
+    RandomMwc rMwc_buffer = RandomMwcCreate((dword)(tv.tv_sec * 2 + tv.tv_usec));
+    
 }

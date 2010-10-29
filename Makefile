@@ -5,10 +5,12 @@ OBJS +=Materials.o IntersectPoint.o
 OBJS +=Screen.o Camera.o Scene.o 
 OBJS +=Image.o RayTrace.o Ray.o
 OBJS += Sample.o ToneMap.o Lights.o
+OBJS += ./Dependencies/RandomMWC/RandomMwc.o
 CC = gcc -g
 DEBUGFLAGS = -g
 LFLAGS = -lm
 CFLAGS = -c
+RandDir = Dependencies/RandomMWC
 
 all: VectorTest ColourTest PrimativesTest ScreenTest SceneTest ImageTest RayTraceTest PlaneIntersect
 
@@ -50,8 +52,12 @@ RayTrace.o: RayTrace.c RayTrace.h
 ToneMap.o: ToneMap.h ToneMap.c
 	$(CC) ToneMap.c $(CFLAGS)
 
-Sample.o: Sample.h Sample.c
-	$(CC) Sample.c $(CFLAGS)
+Sample.o: Sample.h Sample.c RandomMwc
+	$(CC) -I ./Dependencies/RandomMWC Sample.c $(CFLAGS)
+
+RandomMwc:
+	cd ./Dependencies/RandomMWC/; make
+
 
 Image.o: Image.h Image.c
 	$(CC) Image.c $(CFLAGS)
@@ -91,13 +97,14 @@ Screen.o: Screen.h Screen.c
 
 clean:
 	\rm *.o *.gch *.c~ *.h~ *.sh~ *Makefile~ VectorTest ColourTest PrimativesTest ScreenTest RayTraceTest PlaneIntersect SceneTest ImageTest --force
+	cd ./Dependencies/RandomMWC; make clean
 
 test:
 	./ColourTest
 	./RayTraceTest
 	./ScreenTest
-	#./PrimativesTest
-	#./VectorTest
+	#./PrimativesTest #BROKEN
+	#./VectorTest #BROKEN
 	./SceneTest
 	./ImageTest
 	./SceneTest

@@ -12,6 +12,10 @@ struct Screen {
 	int image_height;
 	
 	Vector3f position;
+        Vector3f up; //vector to top side of the screen
+        Vector3f left;// vecort to left side of the screen
+        Vector3f left_dir;
+        Vector3f up_dir;
 	
 	float pixel_width;
 	Pixel pixel_array[MAXIMAGESIZE][MAXIMAGESIZE];//can probably be more dynamic
@@ -37,35 +41,56 @@ void ScreenCalibrate(Screen* self, Vector3f cam_pos, Vector3f view_vec, float vi
 	float pixel_width, height;
 	//todo:
 	//if pixel_width < MAXIMAGESIZE raise error
-	Vector3f up_dir = {{0.0f, 0.0f, 1.0f}};
-	Vector3f vup_dir
-	Vector3f vup, vleft, vleft_norm, vright, vright_inc, vdown_inc, vright_cross, vup_cross;
+	Vector3f SceneUp = {{0.0f, 0.0f, 1.0f}};
+        Vector3f RightRel, RightRelRotate, UpRotate, BackRel, UpRelRotate;
+	Vector3f DownRelRotate, ScreenUpDir, ScreenUp, ScreenLeft, ScreenLeftDir;
+        Vector3f ScreenDownInc, ScreenRightDir, ScreenRightInc;
 	//vectors from centre of screen to edges
 	Vector3f vpixvertical, vpixhorizontal;// pixel construction vectors
 	
 	self->position = Vector3fAdd(&cam_pos, &view_vec);
 	
-	
+        RightRel = Vector3fCross(&SceneUp, &view_vec);
+        BackRel = Vector3fCross(&SceneUp, &RightRel);
+        //UpRotate = RotateAroundVector(SceneUp, view_angle, BackRel);//rotate scene up around backrel
+        UpRotate = SceneUp;
+        RightRelRotate = Vector3fCross(&UpRotate, &view_vec);
+        DownRelRotate = Vector3fCross(&RightRelRotate, &view_vec);
+        UpRelRotate = Vector3fNeg(&DownRelRotate);
+
+        ScreenUpDir = Vector3fNormalize(&UpRelRotate);
+
+        
+
+
+        /* begin old code */
+
 	pixel_width = (self->width)/((float)(self->image_width));
 	self->pixel_width = pixel_width;
-	
 	height = pixel_width * (self->image_height);
-	//vup = Vector3fMulF(&vup_dir, (height/2.0f));//from screen center
-	vright_cross = Vector3fCross(view_vec, up_dir);
-	vup_cross = Vector3fCross(vright_cross, view_vec);
-	vup_dir = Vector3fNormalize(&vup_cross);
-	vup = Vector3fMulF(&vup_dir, (height/2.0f));
+        
+	ScreenUp = Vector3fMulF(&ScreenUpDir, (height/2.0f));
 
-	vdown_inc = Vector3fMulF(&vup_dir, (-1.0f * pixel_width));
+        self->up = ScreenUp;
+        self->up_dir = ScreenUpDir;
+
+	ScreenDownInc = Vector3fMulF(&ScreenUpDir, (-1.0f * pixel_width));
 	
-	vleft = Vector3fCross(&vup, &view_vec);//final vleft
-	vleft_norm = Vector3fNormalize(&vleft);
-	
-	vright = Vector3fNeg(&vleft_norm);//vright norm
+	ScreenLeftDir = Vector3fCross(&ScreenUp, &view_vec);//final vleft
+	ScreenLeftDir = Vector3fNormalize(&ScreenLeftDir);
+        ScreenLeft = Vector3fMulF(&ScreenLeftDir, (self->width/2.0f));
+        
+        self->left = ScreenLeft;
+        self->left_dir = ScreenLeftDir;
+
+	ScreenRightDir = Vector3fNeg(&ScreenLeftDir);//vright norm
 	//potential for optimization around here
 	
-	vright_inc = Vector3fMulF(&vright, pixel_width);//vright increment
-	
+	ScreenRightInc = Vector3fMulF(&ScreenRightDir, pixel_width);//vright increment
+
+        printf("up: ");
+        Vector3fPrint(&ScreenLeft);
+
 	/*creation of the image array*/
 	//should probably make a new type called pixel array
 	//will do when refactor for montecarlo sampling arrives
@@ -90,7 +115,7 @@ void ScreenCalibrate(Screen* self, Vector3f cam_pos, Vector3f view_vec, float vi
 	Vector3fPrint(&vdown_inc);
 	*/
 	int counter_rows = 0;
-	vpixvertical = vup;//initial vpixvertical
+	vpixvertical = ScreenUp;//initial vpixvertical
 	
 	//printf("\ninitial vpixvert:\n");
 	//Vector3fPrint(&vpixvertical);
@@ -99,13 +124,13 @@ void ScreenCalibrate(Screen* self, Vector3f cam_pos, Vector3f view_vec, float vi
 	//with vright increments
 	while (counter_rows < (self->image_height)){
 		int counter_pixels = 0;
-		vpixvertical = Vector3fAdd(&vpixvertical, &vdown_inc);//all shifted down one maybe needs offset!
+		vpixvertical = Vector3fAdd(&vpixvertical, &ScreenDownInc);//all shifted down one maybe needs offset!
 		// I think it is better performance adding an increment
-		vpixhorizontal = Vector3fSub(&vleft, &vright_inc);//resetting to left hand edge 
+		vpixhorizontal = Vector3fSub(&ScreenLeft, &ScreenRightInc);//resetting to left hand edge
 		//(subtracting offset as well)
 		
 		while (counter_pixels < (self->image_width)){
-			vpixhorizontal = Vector3fAdd(&vpixhorizontal, &vright_inc);
+			vpixhorizontal = Vector3fAdd(&vpixhorizontal, &ScreenRightInc);
 			Vector3f pixpos = Vector3fAdd(&vpixhorizontal, &vpixvertical);
 			pixpos = Vector3fAdd(&pixpos, &(self->position));//adjust according to screen position
 			self->pixel_array[counter_rows][counter_pixels] = PixelCreate(	counter_pixels, 

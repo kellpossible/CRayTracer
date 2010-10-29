@@ -33,7 +33,9 @@ Camera* CameraCreate(Screen* screen,
 	self->view_angle = view_angle;
 	
 	vv1 = Vector3fSub(self->target_position, self->position);
-	
+        printf("target_position ");
+        Vector3fPrint(target_position);
+
 	*direction = Vector3fNormalize(&vv1);
 	self->direction = direction;
 	

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="69">
+  <logicalFolder name="root" displayName="root" projectFiles="true">
+    <df name="raytracer" root=".">
+      <df name="Dependencies">
+        <df name="RandomMWC" kind="SOURCE_LOGICAL_FOLDER">
+          <in>Makefile</in>
+          <in>Primitives.h</in>
+          <in>RandomMwc.c</in>
+          <in>RandomMwc.h</in>
+          <in>RandomMwc.h.gch</in>
+        </df>
+      </df>
+      <in>Camera.c</in>
+      <in>Camera.h</in>
+      <in>ColourTest.c</in>
+      <in>Colours.c</in>
+      <in>Colours.h</in>
+      <in>Console.c</in>
+      <in>Console.h</in>
+      <in>CustomMath.c</in>
+      <in>CustomMath.h</in>
+      <in>Image.c</in>
+      <in>Image.h</in>
+      <in>ImageTest.c</in>
+      <in>IntersectPoint.c</in>
+      <in>IntersectPoint.h</in>
+      <in>LTracer.c</in>
+      <in>Lights.c</in>
+      <in>Lights.h</in>
+      <in>Materials.c</in>
+      <in>Materials.h</in>
+      <in>PlaneIntersect.c</in>
+      <in>Primatives.c</in>
+      <in>Primatives.h</in>
+      <in>PrimativesTest.c</in>
+      <in>Ray.c</in>
+      <in>Ray.h</in>
+      <in>RayTrace.c</in>
+      <in>RayTrace.h</in>
+      <in>RayTraceTest.c</in>
+      <in>Sample.c</in>
+      <in>Sample.h</in>
+      <in>Scene.c</in>
+      <in>Scene.h</in>
+      <in>SceneTest.c</in>
+      <in>Screen.c</in>
+      <in>Screen.h</in>
+      <in>ScreenTest.c</in>
+      <in>ToneMap.c</in>
+      <in>ToneMap.h</in>
+      <in>VectorTest.c</in>
+      <in>Vectors.c</in>
+      <in>Vectors.h</in>
+    </df>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false"
+                   kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>Makefile</itemPath>
+      <itemPath>Makefile-raytracer.mk</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <sourceRootList>
+    <Elem>.</Elem>
+  </sourceRootList>
+  <projectmakefile>Makefile-raytracer.mk</projectmakefile>
+  <confs>
+    <conf name="Default" type="0">
+      <toolsSet>
+        <developmentServer>localhost</developmentServer>
+        <compilerSet>GNU|GNU</compilerSet>
+        <platform>2</platform>
+      </toolsSet>
+      <makefileType>
+        <makeTool>
+          <buildCommandWorkingDir>.</buildCommandWorkingDir>
+          <buildCommand>$(MAKE) -f Makefile</buildCommand>
+          <cleanCommand>$(MAKE) -f Makefile clean</cleanCommand>
+          <executablePath></executablePath>
+        </makeTool>
+      </makefileType>
+      <item path="Camera.c" ex="true" tool="0">
+      </item>
+      <item path="Camera.h" ex="true" tool="3">
+      </item>
+      <item path="ColourTest.c" ex="true" tool="0">
+      </item>
+      <item path="Console.c" ex="true" tool="0">
+      </item>
+      <item path="Console.h" ex="true" tool="3">
+      </item>
+      <item path="Image.c" ex="true" tool="0">
+      </item>
+      <item path="Image.h" ex="true" tool="3">
+      </item>
+      <item path="ImageTest.c" ex="true" tool="0">
+      </item>
+      <item path="LTracer.c" ex="true" tool="0">
+      </item>
+      <item path="Lights.c" ex="true" tool="0">
+      </item>
+      <item path="PlaneIntersect.c" ex="true" tool="0">
+      </item>
+      <item path="PrimativesTest.c" ex="true" tool="0">
+      </item>
+      <item path="Ray.c" ex="true" tool="0">
+      </item>
+      <item path="RayTrace.c" ex="true" tool="0">
+      </item>
+      <item path="RayTrace.h" ex="true" tool="3">
+      </item>
+      <item path="RayTraceTest.c" ex="true" tool="0">
+      </item>
+      <item path="Sample.c" ex="true" tool="0">
+      </item>
+      <item path="Sample.h" ex="true" tool="3">
+      </item>
+      <item path="Scene.c" ex="true" tool="0">
+      </item>
+      <item path="Scene.h" ex="true" tool="3">
+      </item>
+      <item path="SceneTest.c" ex="true" tool="0">
+      </item>
+      <item path="ScreenTest.c" ex="true" tool="0">
+      </item>
+      <item path="ToneMap.c" ex="true" tool="0">
+      </item>
+      <item path="ToneMap.h" ex="true" tool="3">
+      </item>
+      <item path="VectorTest.c" ex="true" tool="0">
+      </item>
+    </conf>
+  </confs>
+</configurationDescriptor>
