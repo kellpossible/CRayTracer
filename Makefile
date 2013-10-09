@@ -13,7 +13,10 @@ LFLAGS = -lm
 CFLAGS = -c
 RandDir = Dependencies/RandomMWC
 
-all: VectorTest ColourTest PrimativesTest ScreenTest SceneTest ImageTest RayTraceTest PlaneIntersect
+all: BuildSetup VectorTest ColourTest PrimativesTest ScreenTest SceneTest ImageTest RayTraceTest PlaneIntersect
+
+BuildSetup:
+	mkdir build
 
 PlaneIntersect: PlaneIntersect.c $(OBJS)
 	$(CC) $(LFLAGS) PlaneIntersect.c $(OBJS) -o PlaneIntersect
@@ -101,6 +104,7 @@ Screen.o: Screen.h Screen.c
 clean:
 	\rm *.o *.gch *.c~ *.h~ *.sh~ *Makefile~ VectorTest ColourTest PrimativesTest ScreenTest RayTraceTest PlaneIntersect SceneTest ImageTest --force
 	cd ./Dependencies/RandomMWC; make clean
+	rm -R build
 
 test:
 	./ColourTest
