@@ -1,0 +1,15 @@
+*.o
+*.a
+*.gch
+*.c~
+*.h~
+*.sh~
+*Makefile~
+VectorTest
+ColourTest
+PrimativesTest
+ScreenTest
+RayTraceTest
+PlaneIntersect
+SceneTest
+ImageTest
